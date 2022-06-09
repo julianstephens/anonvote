@@ -1,22 +1,21 @@
 from flask import Flask, render_template
-from flask_assets import Bundle, Environment
-from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+
+
+from .extensions import *
+from .routes import poll_bp, item_bp
 
 
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile("dev.cfg")
 
-    scss = Bundle(
-        "scss/main.scss",
-        filters="pyscss",
-        depends=("scss/*"),
-        output="gen/css/main.css",
-    )
-    assets = Environment(app)
-    assets.register("scss", scss)
+    poll_bp.register_blueprint(item_bp)
+    app.register_blueprint(poll_bp)
 
-    db = SQLAlchemy(app)
+    db.init_app(app)
+
+    migrate = Migrate(app, db)
 
     with app.app_context():
         db.create_all()
