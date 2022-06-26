@@ -131,3 +131,5 @@ pyrightconfig.json
 
 
 **/node_modules/*
+
+**/*.cfg
