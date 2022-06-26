@@ -1,0 +1,27 @@
+{% macro create_poll(form) %}
+<div class="modal fade text-dark" id="createModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Poll</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="needs-validation" id="createForm" action="{{ url_for('poll.create_poll') }}" method="post" novalidate>
+                    {{ form.csrf_token }}
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required />
+                        <div class="invalid-feedback">Please provide a poll name.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <input type="text" class="form-control" id="description" name="description" />
+                    </div>
+                    <button type="submit" class="btn btn-primary float-end">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}

@@ -1,0 +1,36 @@
+{% extends "base.jinja" %}
+{% block title %}{{ poll.name }}{% endblock title %}
+{% block description %}
+    {% if poll.description %}
+        {{ poll.description }}
+    {% else %}
+        {% set url = "{{ url_for('poll.polls', poll_id=poll.id)}}" %}
+        <div class="mb-3 w-50">
+            <input type="text"
+                   class="form-control"
+                   name="desc"
+                   id="desc"
+                   placeholder="Add a poll description..." />
+        </div>
+    {% endif %}
+{% endblock description %}
+{# {% block form_button %}
+    <button class="btn h-50 w-auto d-flex justify-content-center align-items-center btn-sm btn-success" type="button"><span class="material-icons fs-2">add</span></button>
+{% endblock form_button %} #}
+{% block content %}
+    {% if items|length %}
+        {{ items }}
+    {% else %}
+        <h4>This poll doesn't have any items yet. Click the plus button to add some.</h4>
+        <form class="mt-3" action="{{ url_for('poll.polls') }}" method="post" novalidate>
+            {{ form.csrf_token }}
+            <input type="text" class="form-control" id="name" name="name" placeholder="Super cool poll suggestion..." required />
+            <button type="button" class="btn btn-primary" type="submit">Add Item</button>
+        </form>
+    {% endif %}
+{% endblock content %}
+{# <div class="align-self-start mt-2">
+    <button class="btn btn-success d-flex justify-content-center align-items-center"
+            jur>
+    </button>
+</div> #}

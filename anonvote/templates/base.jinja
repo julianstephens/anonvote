@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Truly anonymous polls" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+
+    <title>AnonVote</title>
+</head>
+
+<body class="container-fluid">
+    <div class="row h-100">
+        <div class="col-2"></div>
+        <div class="col-8 d-flex align-items-center justify-content-center p-4">
+            <div class="d-flex flex-column h-100 w-100">
+                <div class="d-flex flex-row  justify-content-between my-5">
+                    <div class="d-flex flex-column">
+                        <h1>{% block title %}{% endblock title %}</h1>
+                        <h5 class="fst-italic">{% block description %}{% endblock description %}</h5>
+                    </div>
+                    {% block form_button %}{% endblock form_button %}
+                </div>
+                <div class="d-flex flex-row">
+                    {% block content %} {% endblock content %}
+                </div>
+            </div>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</html>

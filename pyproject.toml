@@ -9,18 +9,17 @@ python = "^3.8"
 Flask = "^2.1.2"
 Flask-SQLAlchemy = "^2.5.1"
 psycopg2-binary = "^2.9.3"
-Flask-RESTful = "^0.3.9"
 shortuuid = "^1.0.9"
-marshmallow = "^3.16.0"
 Flask-Seeder = "^1.2.0"
 Flask-Migrate = "^3.1.0"
 alembic = "^1.8.0"
-flask-serialize = "^2.0.3"
+Flask-WTF = "^1.0.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
 pynvim = "^0.4.3"
 pyright = "^1.1.253"
+djlint = "^1.1.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

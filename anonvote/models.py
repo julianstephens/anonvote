@@ -1,9 +1,6 @@
-from flask_serialize import FlaskSerialize
 import shortuuid
 
 from .extensions import db
-
-fs_mixin = FlaskSerialize(db)
 
 
 class BaseModel(db.Model):
@@ -16,11 +13,14 @@ class BaseModel(db.Model):
         db.DateTime, server_default=db.func.now(), onupdate=db.func.now()
     )
 
+    def __init__(self, name):
+        self.name = name
 
-class Poll(fs_mixin, BaseModel):
+
+class Poll(BaseModel):
     __tablename__ = "polls"
 
-    url_string = db.Column(
+    url_slug = db.Column(
         db.String,
         default=str(shortuuid.uuid()),
         unique=True,
@@ -29,29 +29,32 @@ class Poll(fs_mixin, BaseModel):
     description = db.Column(db.String)
     items = db.relationship("Item", backref="polls", lazy=True)
 
-    __fs_timestamp_fields__ = ["date_modified"]
-    __fs_create_fields__ = __fs_update_fields__ = ["name", "description"]
-    __fs_exclude_serialize_fields__ = ["id", "date_created", "date_modified"]
-    __fs_update_properties__ = ["name", "description", "url_string"]
-    __fs_relationship_fields__ = ["items"]
-
-    def __fs_can_delete(self):
-        raise Exception("Deletion not allowed.")
+    def __init__(self, name, description=None):
+        super(Poll, self).__init__(name)
+        self.description = description
 
     def __repr__(self):
         return "<Poll %r>" % self.name
 
+    def _to_json(self):
+        return {
+            "name": self.name,
+            "description": self.description,
+            "slug": self.url_slug,
+            "items": self.items,
+        }
 
-class Item(fs_mixin, BaseModel):
+
+class Item(BaseModel):
     __tablename__ = "items"
 
     poll_id = db.Column(db.Integer, db.ForeignKey("polls.id"), nullable=False)
 
-    __fs_timestamp_fields__ = ["date_modified"]
-    __fs_create_fields__ = ["poll_id", "name"]
-    __fs_update_fields__ = ["name"]
-    __fs_exclude_serialize_fields__ = ["id", "poll_id", "date_created", "date_modified"]
-    __fs_update_properties__ = ["name"]
+    def __init__(self, name):
+        super(Item, self).__init__(name)
 
     def __repr__(self):
         return "<Item %r>" % self.name
+
+    def _to_json(self):
+        return {"name": self.name, "description": self.description}

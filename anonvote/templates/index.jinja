@@ -1,0 +1,28 @@
+{% extends "base.jinja" %}
+{% block title %}AnonVote{% endblock title %}
+{% block description %}Truly anonymous polls{% endblock description %}
+{% block content %}
+    <button class="btn btn-primary btn-lg w-50 mt-5 align-self-center"
+            data-bs-toggle="modal"
+            data-bs-target="#createModal">
+        Create a Poll
+    </button>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show"
+                     role="alert"
+                     id="findPollError">
+                    {{ message }}
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert"
+                            aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <!-- Modal -->
+    {% from 'partials/_poll-form.jinja' import create_poll %} {{ create_poll(form)}}
+{% endblock content %}
